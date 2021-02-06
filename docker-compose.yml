@@ -1,0 +1,35 @@
+# Docker-compose file for the EZ-Apps (ezlo-hub-kit example apps)
+version: '3.5'
+services:
+
+   ez-mqttrelay:
+     image: ghcr.io/bblacey/ez-mqttrelay
+     env_file:
+       - ./config.env
+     environment:
+       - NODE_ENV=production
+     network_mode: host
+     container_name: ez-mqttrelay
+     restart: unless-stopped
+     
+   ez-housemode-synchronizer:
+      image: ghcr.io/bblacey/ez-housemode-synchronizer
+      network_mode: host
+      env_file:
+        - ./config.env
+      environment:
+        - NODE_ENV=production
+      container_name: ez-housemode-synchronizer
+      restart: unless-stopped
+      
+   ez-housemode-scenerunner:
+      image: ghcr.io/bblacey/ez-housemode-scenerunner
+      network_mode: host
+      env_file:
+        - ./config.env
+      environment:
+        - SCENE_MAP="$$(<scene-map.json)"
+        - NODE_ENV=production
+      container_name: ez-housemode-scenerunner
+      restart: unless-stopped
+
